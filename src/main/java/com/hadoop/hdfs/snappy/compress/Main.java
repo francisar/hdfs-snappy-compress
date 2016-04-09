@@ -15,7 +15,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.lang.System;
-
+import com.hadoop.hdfs.snappy.decompress.Dcompress;
 
 
 
@@ -51,7 +51,7 @@ public class Main {
         //path = "/usr/java/hbase-0.90.3/conf/";
         //conf.addResource(new Path(path + "hbase-site.xml"));
         HELP_MSG = "--------------------------------------------------------------------------------------------" + "\n";
-        HELP_MSG += "please input cmd 'hadoop jar hdfs-snappy-compress-0.0.1.jar <input hdfs path> <output hdfs file> '" + "\n";
+        HELP_MSG += "please input cmd 'hadoop jar hdfs-snappy-compress-0.0.1.jar <-c|-d> <input hdfs path> <output hdfs file> '" + "\n";
         HELP_MSG += "-input:\t\t <hdfs path prepare compress dir or file> " + "\n";
         HELP_MSG += "-output:\t\t<hdfs path compressed must be a file path> " + "\n";
         HELP_MSG += "--------------------------------------------------------------------------------------------";
@@ -70,7 +70,7 @@ public class Main {
     
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if (args != null && args.length < 2) {
+		if (args != null && args.length < 3) {
             System.out.println(HELP_MSG);
             //System.out.println("[stop] application");
             return;
@@ -78,13 +78,25 @@ public class Main {
 
         String in = "";
         String out = "";
-        if (!StringUtils.startsWithIgnoreCase(args[0],HDFS_SCHEMA)){
-            in = HDFS_SCHEMA + args[0];
+        String action="";
+        action = args[0];
+        if (!action.equals("-d") ||!action.equals("-c") ){
+            System.out.println(HELP_MSG);
+            return;
         }
         if (!StringUtils.startsWithIgnoreCase(args[1],HDFS_SCHEMA)){
-            out = HDFS_SCHEMA + args[1];
+            in = HDFS_SCHEMA + args[1];
         }
-        int ret = fileReader(in,out);
+        if (!StringUtils.startsWithIgnoreCase(args[2],HDFS_SCHEMA)){
+            out = HDFS_SCHEMA + args[2];
+        }
+        int ret = -1;
+        if (action.equals("-d")){
+        	ret = Dcompress.decompress(in, out);
+        }
+        if (action.equals("-c")){
+        	ret = fileReader(in,out);
+        }
         if (ret > 0){
         	System.out.println("[success]");
         }
@@ -126,7 +138,7 @@ public class Main {
                 	}
                 	System.out.println(String.format("%s",fileStatus.getPath().getName()));
                     if (fileStatus.isFile()) {
-                    	 //System.out.println(String.format("%s",fileStatus.getPath().getName()));
+                    	 LOG.debug(String.format("%s",fileStatus.getPath().getName()));
                     	 FSDataInputStream hdfsInStream = fs.open(fileStatus.getPath());
                     	 int readLen = hdfsInStream.read(ioBuffer);
                     	 //System.out.println(String.format("%d:%s",readLen,ioBuffer));
@@ -140,7 +152,7 @@ public class Main {
             }
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+        	LOG.error(e.getMessage());
         }
 		return -2;
 	}
