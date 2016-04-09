@@ -24,19 +24,22 @@ script目录中提供了执行的shell脚本，脚本要先进行如下环境变
     FILE_PREFIX=
 使用脚本，需要在hadoop 配置文件core-site.xml中加入如下配置
 
-<pre>
-<property>
-<name>fs.hdfs.impl</name>
-<value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
-<description>The FileSystem for hdfs: uris.</description>
-</property>
-</pre>
+<!--lang:XML-->
+    <property>
+    <name>fs.hdfs.impl</name>
+    <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
+    <description>The FileSystem for hdfs: uris.</description>
+    </property>
 
 
 # 使用
 
-使用jar包执行
+-使用jar包执行
+<code>
 hadoop jar hdfs-snappy-compress-0.0.1.jar <input hdfs path> <output hdfs file>
-使用脚本执行
+</code>
+-使用脚本执行
+<code>
 hdfs_snappy.sh [input hdfs dir] [output hdfs file]
+</code>
 
