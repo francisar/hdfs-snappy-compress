@@ -15,18 +15,22 @@ mvn clean package
 
 将包放置在hadoop_home下lib文件夹下
 script目录中提供了执行的shell脚本，脚本要先进行如下环境变量的设置
-JAVA_HOME=
-SNAPPY_LOG_FILE=hdfs-snappy-compress.log
-HADOOP_HOME=
-LOG_LEVEL=WARN
-FILE_PREFIX=
+<!--lang:shell-->
+
+    JAVA_HOME=
+    SNAPPY_LOG_FILE=hdfs-snappy-compress.log
+    HADOOP_HOME=
+    LOG_LEVEL=WARN
+    FILE_PREFIX=
 使用脚本，需要在hadoop 配置文件core-site.xml中加入如下配置
 
+<pre>
 <property>
 <name>fs.hdfs.impl</name>
 <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
 <description>The FileSystem for hdfs: uris.</description>
 </property>
+</pre>
 
 
 # 使用
