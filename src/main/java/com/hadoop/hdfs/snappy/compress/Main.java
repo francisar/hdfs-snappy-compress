@@ -1,4 +1,4 @@
-package com.lagou.hdfs.snappy.compress;
+package com.hadoop.hdfs.snappy.compress;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
@@ -12,10 +12,8 @@ import org.apache.hadoop.io.compress.CompressionCodec;
 import org.apache.hadoop.util.ReflectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.System;
 
 
@@ -32,7 +30,7 @@ public class Main {
     
     
     private static String HELP_MSG = "";
-    private static String hadoop_home = System.getenv("hadoop.home.dir");
+    private static String hadoop_home = System.getProperty("hadoop.home.dir");
     
     //private static final String LZO_SUFFIX = ".lzo";
     static Configuration conf = new Configuration();
@@ -57,7 +55,7 @@ public class Main {
         if (LOG.isDebugEnabled()) {
             LOG.debug(String.format("hadoop_home:%s", hadoop_home));
             LOG.debug(String.format("hadoop_conf:%s", path));
-            LOG.debug(String.format("fs.defaultFS:%s", path));
+            LOG.debug(String.format("fs.defaultFS:%s", HDFS_SCHEMA));
         }
         try {
             fs = FileSystem.get(conf);
@@ -124,10 +122,10 @@ public class Main {
                 	}
                 	System.out.println(String.format("%s",fileStatus.getPath().getName()));
                     if (fileStatus.isFile()) {
-                    	 System.out.println(String.format("%s",fileStatus.getPath().getName()));
+                    	 //System.out.println(String.format("%s",fileStatus.getPath().getName()));
                     	 FSDataInputStream hdfsInStream = fs.open(fileStatus.getPath());
                     	 int readLen = hdfsInStream.read(ioBuffer);
-                    	 System.out.println(String.format("%d:%s",readLen,ioBuffer));
+                    	 //System.out.println(String.format("%d:%s",readLen,ioBuffer));
                     	 while(-1 != readLen){
                     		  outputStream.write(ioBuffer, 0, readLen);  
                     		  readLen = hdfsInStream.read(ioBuffer);

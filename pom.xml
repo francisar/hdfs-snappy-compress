@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.lagou.hdfs</groupId>
+  <groupId>com.hadoop.hdfs</groupId>
   <artifactId>hdfs-snappy-compress</artifactId>
   <version>0.0.1</version>
-  <name>com.lagou.hdfs.snappy.compress</name>
+  <name>com.hadoop.hdfs.snappy.compress</name>
   <description>hdfs compress</description>
    <packaging>jar</packaging>
        <dependencies>
@@ -133,7 +133,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.lagou.hdfs.snappy.compress.Main</mainClass>
+                            <mainClass>com.hadoop.hdfs.snappy.compress.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
