@@ -31,14 +31,18 @@ public class Main {
     
     private static String HELP_MSG = "";
     private static String hadoop_home = System.getProperty("hadoop.home.dir");
+    private static String file_prefix = System.getProperty("file.prefix");
     
     //private static final String LZO_SUFFIX = ".lzo";
     static Configuration conf = new Configuration();
     static FileSystem fs;
     static {
     	if(hadoop_home == null){
-        	hadoop_home = "/apps/hadoop";
+        	hadoop_home = "/usr/local/hadoop";
         }
+    	if (file_prefix == null){
+    		file_prefix = "";
+    	}
         String path = hadoop_home + "/etc/hadoop/";
         conf.addResource(new Path(path + "core-site.xml"));
         conf.addResource(new Path(path + "hdfs-site.xml"));
@@ -47,9 +51,9 @@ public class Main {
         //path = "/usr/java/hbase-0.90.3/conf/";
         //conf.addResource(new Path(path + "hbase-site.xml"));
         HELP_MSG = "--------------------------------------------------------------------------------------------" + "\n";
-        HELP_MSG += "please input cmd 'hadoop jar hadoop-lzo-0.0.1.jar <input hdfs path> <output hdfs path> '" + "\n";
+        HELP_MSG += "please input cmd 'hadoop jar hdfs-snappy-compress-0.0.1.jar <input hdfs path> <output hdfs file> '" + "\n";
         HELP_MSG += "-input:\t\t <hdfs path prepare compress dir or file> " + "\n";
-        HELP_MSG += "-output:\t\t<hdfs path compressed must be single dir> " + "\n";
+        HELP_MSG += "-output:\t\t<hdfs path compressed must be a file path> " + "\n";
         HELP_MSG += "--------------------------------------------------------------------------------------------";
         PropertyConfigurator.configure(path + "log4j.properties");
         if (LOG.isDebugEnabled()) {
@@ -117,7 +121,7 @@ public class Main {
             } else if (stat.isDirectory()) {
                 FileStatus[] subInputFile = fs.listStatus(input);
                 for (FileStatus fileStatus : subInputFile) {
-                	if(!fileStatus.getPath().getName().startsWith("access")){
+                	if(!fileStatus.getPath().getName().startsWith(file_prefix)){
                 		continue;
                 	}
                 	System.out.println(String.format("%s",fileStatus.getPath().getName()));
