@@ -34,11 +34,11 @@ script目录中提供了执行的shell脚本，脚本要先进行如下环境变
 
 # 使用
 
--使用jar包执行
+- 使用jar包执行
 <code>
 hadoop jar hdfs-snappy-compress-0.0.1.jar <input hdfs path> <output hdfs file>
 </code>
--使用脚本执行
+- 使用脚本执行
 <code>
 hdfs_snappy.sh [input hdfs dir] [output hdfs file]
 </code>
