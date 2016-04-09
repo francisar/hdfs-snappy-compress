@@ -51,7 +51,7 @@ public class Main {
         //path = "/usr/java/hbase-0.90.3/conf/";
         //conf.addResource(new Path(path + "hbase-site.xml"));
         HELP_MSG = "--------------------------------------------------------------------------------------------" + "\n";
-        HELP_MSG += "please input cmd 'hadoop jar hdfs-snappy-compress-0.0.1.jar <-c|-d> <input hdfs path> <output hdfs file> '" + "\n";
+        HELP_MSG += "please input cmd 'hadoop jar hdfs-snappy-compress-0.0.1.jar <c|d> <input hdfs path> <output hdfs file> '" + "\n";
         HELP_MSG += "-input:\t\t <hdfs path prepare compress dir or file> " + "\n";
         HELP_MSG += "-output:\t\t<hdfs path compressed must be a file path> " + "\n";
         HELP_MSG += "--------------------------------------------------------------------------------------------";
@@ -80,7 +80,7 @@ public class Main {
         String out = "";
         String action="";
         action = args[0];
-        if (!action.equals("-d") ||!action.equals("-c") ){
+        if (!action.equals("d") && !action.equals("c") ){
             System.out.println(HELP_MSG);
             return;
         }
@@ -91,10 +91,10 @@ public class Main {
             out = HDFS_SCHEMA + args[2];
         }
         int ret = -1;
-        if (action.equals("-d")){
+        if (action.equals("d")){
         	ret = Dcompress.decompress(in, out);
         }
-        if (action.equals("-c")){
+        if (action.equals("c")){
         	ret = fileReader(in,out);
         }
         if (ret > 0){
